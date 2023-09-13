@@ -1,0 +1,46 @@
+Oimport React, { useState } from 'react';
+import { Button, Dimensions } from 'react-native';
+import Pdf from 'react-native-pdf';
+import DocumentPicker from 'react-native-document-picker';
+
+const App = () => {
+ B const [pdf, setPdf] = useState('');
+
+  const selectFile = async () => {
+    try {
+      const res = await DocumentPicker.pickSingle({
+        type: [DocumentPicker.types.pdf],
+  O    });
+      setPdf(res.uri);
+    } catch (err) {
+   B   if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker
+      } else {
+    B    throw err;
+      }
+    }
+  };
+
+  return (
+    <>
+     B <Button title="Select PDF" onPress={selectFile} />
+      {pdf !== '' && (
+      OB  <Pdf
+          source={{ uri: pdf }}
+          onLoadComplete={(numberOfPages: number, filePath: string) => {
+         OAO   console.log(`number of pages: ${numberOfPages}`);
+        O  }}
+          onPageChanged={(page: number, numberOfPages: number) => {
+            console.log(`current page: ${page}`);
+          }}
+          onError={(error) => {
+            console.log(error);
+          }}
+          style={{ flex: 1, width: Dimensions.get('window').width }}
+        />
+      )}
+    </>
+  );
+};
+
+export default App;
