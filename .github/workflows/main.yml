@@ -31,7 +31,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.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 }}
+          GITHUB_TOKEN: ${{ secrets.MY_PAT }}
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
